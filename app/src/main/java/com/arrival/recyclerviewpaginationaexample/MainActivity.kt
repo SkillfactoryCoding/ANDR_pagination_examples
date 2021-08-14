@@ -25,10 +25,9 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
-        viewModel.getDataFromApi(1)
-
         viewModel.data.observe(this) {
-            mainAdapter.addItems(it)
+            println("VVV from observe $it")
+            mainAdapter.submitList(it)
         }
     }
 }

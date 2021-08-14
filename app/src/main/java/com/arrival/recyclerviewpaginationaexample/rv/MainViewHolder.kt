@@ -6,6 +6,7 @@ import com.arrival.recyclerviewpaginationaexample.databinding.ItemBinding
 
 class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val binding = ItemBinding.bind(itemView)
+
     fun onBind(int: Int) {
         binding.number.text = int.toString()
     }
