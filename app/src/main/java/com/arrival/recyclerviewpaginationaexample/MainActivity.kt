@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arrival.recyclerviewpaginationaexample.databinding.ActivityMainBinding
 import com.arrival.recyclerviewpaginationaexample.rv.MainAdapter
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainRv.apply {
             adapter = mainAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
+            initPagination()
         }
 
         viewModel.getDataFromApi(1)
@@ -30,5 +32,19 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this) {
             mainAdapter.addItems(it)
         }
+    }
+
+    private fun RecyclerView.initPagination() {
+        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+                    val visibleItemCount = recyclerView.layoutManager!!.childCount
+                    val totalItemCount = recyclerView.layoutManager!!.itemCount
+                    val pastVisibleItemCount =
+                        (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    viewModel.doPagination(visibleItemCount, totalItemCount, pastVisibleItemCount)
+                }
+            }
+        })
     }
 }

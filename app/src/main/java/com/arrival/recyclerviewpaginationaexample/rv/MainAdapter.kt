@@ -20,5 +20,6 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 
     fun addItems(list: List<Int>) {
         items.addAll(list)
+        notifyDataSetChanged()
     }
 }
